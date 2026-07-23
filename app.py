@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from api.ingest import ingestion
-from api.query import query
+from api.ingest import router as ingest_router
+from api.query import router as query_router
 
 app = FastAPI()
 
@@ -14,8 +14,8 @@ def health_check():
         'status' : 'OK'
     }
 
-app.include_router(ingestion)
-app.include_router(query)
+app.include_router(ingest_router)
+app.include_router(query_router)
 
 
 

@@ -1,4 +1,4 @@
 from langchain_core.output_parsers import PydanticOutputParser
-from schema.response import output
+from schema.query_response import QueryResponse
 
-parser = PydanticOutputParser(pydantic_object=output)
+parser = PydanticOutputParser(pydantic_object=QueryResponse)

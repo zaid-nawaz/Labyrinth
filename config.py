@@ -1,0 +1,4 @@
+import os
+
+SUPADATA_API_KEY=os.getenv("SUPADATA_API_KEY")
+OPENROUTER_API_KEY=os.getenv("OPENROUTER_API_KEY")  

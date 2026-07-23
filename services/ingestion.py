@@ -3,6 +3,7 @@ from langchain_core.documents import Document
 from services.transcript import get_transcript
 from vector_store.vector_storage import vector_store
 
+
 load_dotenv()
 
 def is_video_ingested(vector_store, video_id: str) -> bool:

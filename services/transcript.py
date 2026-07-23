@@ -1,5 +1,6 @@
 # import httpx
 # import os
+from config import SUPADATA_API_KEY
 
 dummy_transcript = {
     "lang": "en",
@@ -60,7 +61,6 @@ dummy_transcript = {
 def get_transcript(
     video_id: str,
 ) -> dict:  # key is content  and content contains a list of dictionaries with keys as lang text offset duration
-    # SUPADATA_API_KEY = os.environ.get("SUPADATA_API_KEY")
 
     # response = httpx.get(
     #     "https://api.supadata.ai/v1/youtube/transcript",
