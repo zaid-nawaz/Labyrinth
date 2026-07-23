@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from schema.youtube_url import YoutubeURL
-from urllib.parse import parse_qs
+from api.ingest import ingestion
+from api.query import query
 
 app = FastAPI()
 
@@ -14,16 +14,8 @@ def health_check():
         'status' : 'OK'
     }
 
-@app.post('/ingest')
-def ingestion(data : YoutubeURL):
-
-    youtube_url = data.url
-
-    params = parse_qs(youtube_url.query)
-
-    video_id = params["v"][0]
-
-    return {"video_id" : video_id}
+app.include_router(ingestion)
+app.include_router(query)
 
 
 
