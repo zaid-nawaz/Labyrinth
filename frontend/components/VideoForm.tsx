@@ -2,13 +2,20 @@
 
 import { useState } from "react";
 
-export default function VideoForm() {
+interface VideoFormProps {
+  onIngest: (url: string) => void;
+}
+
+export default function VideoForm({ onIngest }: VideoFormProps) {
   const [url, setUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(url);
+    if (!url.trim()) return;
+
+    onIngest(url);
+    setUrl("");
   };
 
   return (
