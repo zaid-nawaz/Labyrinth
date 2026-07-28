@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface VideoFormProps {
   onIngest: (url: string) => void;
+  loading : boolean;
 }
 
-export default function VideoForm({ onIngest }: VideoFormProps) {
+export default function VideoForm({ onIngest, loading }: VideoFormProps) {
   const [url, setUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,12 +29,13 @@ export default function VideoForm({ onIngest }: VideoFormProps) {
         className="flex-1 rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
       />
 
-      <button
-        type="submit"
-        className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
-      >
-        Ingest
-      </button>
+    <button
+      type="submit"
+      disabled={loading}
+      className="rounded-lg bg-blue-600 px-5 py-2 text-white disabled:opacity-50"
+    >
+      {loading ? "Ingesting..." : "Ingest"}
+    </button>
     </form>
   );
 }

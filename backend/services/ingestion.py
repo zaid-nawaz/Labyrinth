@@ -16,7 +16,7 @@ def is_video_ingested(vector_store, video_id: str) -> bool:
 def ingestion_engine(video_id: str):
 
     if is_video_ingested(vector_store=vector_store, video_id=video_id):
-        return {"status": "already_ingested"}
+        return {"status": "already_ingested", "video_id" : video_id }
 
     data = get_transcript(video_id)
 
