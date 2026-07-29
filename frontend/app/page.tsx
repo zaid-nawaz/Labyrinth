@@ -6,12 +6,30 @@ import { api } from "@/lib/api";
 import VideoPlayer from "@/components/VideoPlayer";
 import { Message } from "@/types/chat";
 import Chat from "@/components/Chat";
+import { useRef } from "react";
+import { YouTubePlayer, YouTubeProps } from "react-youtube";
 
 export default function Home() {
 
 const [videoId, setVideoId] = useState("");
 const [loading, setLoading] = useState(false);
 const [messages, setMessages] = useState<Message[]>([]);
+const [isLoading, setIsLoading ] = useState(false);
+
+const playerRef = useRef<YouTubePlayer | null>(null);
+
+const handlePlayerReady: YouTubeProps["onReady"] = (event) => {
+    console.log(playerRef.current);
+    playerRef.current = event.target;
+};
+
+const handleSeek = (milliseconds: number) => {
+
+  if(!playerRef.current) return;
+
+  playerRef.current?.seekTo(milliseconds / 1000, true);
+  playerRef.current.playVideo();
+};
 
     const handleIngest = async (url: string) => {
       try {
@@ -44,6 +62,8 @@ const [messages, setMessages] = useState<Message[]>([]);
         },
       ]);
 
+      setIsLoading(true);
+
       try {
         const response = await api.post("/query", {
           video_id: videoId,
@@ -55,6 +75,7 @@ const [messages, setMessages] = useState<Message[]>([]);
           {
             role: "assistant",
             content: response.data.content,
+            offset: response.data.offset,
           },
         ]);
 
@@ -69,6 +90,8 @@ const [messages, setMessages] = useState<Message[]>([]);
             content: "Something went wrong.",
           },
         ]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -82,7 +105,7 @@ const [messages, setMessages] = useState<Message[]>([]);
 
       <div className="mt-6 flex-1">
         {videoId ? (
-          <VideoPlayer videoId={videoId} />
+          <VideoPlayer videoId={videoId} onReady={handlePlayerReady} />
         ) : (
           <div className="flex h-full items-center justify-center rounded-lg border-2 border-dashed">
             <h2 className="text-2xl font-semibold text-gray-400">
@@ -95,7 +118,7 @@ const [messages, setMessages] = useState<Message[]>([]);
 
         {/* Right Panel */}
       <div className="w-[400px] rounded-xl border bg-white shadow">
-        <Chat messages={messages} onSend={handleSend} disabled={!videoId} />
+        <Chat messages={messages} onSend={handleSend} disabled={!videoId} loading={isLoading} onSeek={handleSeek}/>
       </div>
       </div>
     </main>
