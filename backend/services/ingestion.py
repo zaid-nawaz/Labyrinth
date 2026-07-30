@@ -39,6 +39,7 @@ def ingestion_engine(video_id: str):
                 Document(
                     page_content=chunk_text.strip(),
                     metadata={
+                        "chunk_id": f"{video_id}_{start_offset}_{end_offset}",
                         "start_offset": start_offset,
                         "end_offset": end_offset,
                         "video_id": video_id,
@@ -56,6 +57,7 @@ def ingestion_engine(video_id: str):
             Document(
                 page_content=chunk_text.strip(),
                 metadata={
+                    "chunk_id": f"{video_id}_{start_offset}_{end_offset}",
                     "start_offset": start_offset,
                     "end_offset": end_offset,
                     "video_id": video_id,
