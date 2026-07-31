@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowUp } from "lucide-react";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -33,15 +34,17 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
         }
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="flex-1 rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex-1 rounded-lg border px-4 py-2  outline-none text-gray-900 focus:ring-2 focus:ring-black"
         disabled={disabled}
       />
 
       <button
         type="submit"
-        className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        disabled={disabled}
+        className="flex items-center rounded-full bg-black px-3 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
       >
-        Send
+        <ArrowUp className="h-5 w-5" />
+        
       </button>
     </form>
   );
