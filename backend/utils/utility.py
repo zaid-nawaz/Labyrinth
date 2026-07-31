@@ -1,7 +1,32 @@
+import json
+
 def format_docs(retrieved_docs) -> str:
-  context_text = "\n\n".join(doc.page_content for doc in retrieved_docs)
-  return context_text
+    context_parts = []
+
+    for doc in retrieved_docs:
+
+        segments = json.loads(
+            doc.metadata.get("segments", "[]")
+        )
+
+        for segment in segments:
+            context_parts.append(
+                f"[{segment['offset']}] {segment['text']}"
+            )
+
+    return "\n".join(context_parts)
 
 def format_timestamp(retrieved_docs) -> list[int]:
-  context_timestamp = [doc.metadata["start_offset"] for doc in retrieved_docs]
-  return context_timestamp
+    timestamps = []
+
+    for doc in retrieved_docs:
+        segments = json.loads(
+            doc.metadata.get("segments", "[]")
+        )
+
+        for segment in segments:
+            timestamps.append(segment["offset"])
+            
+    print("TIMESTAMPS:", timestamps)
+
+    return timestamps

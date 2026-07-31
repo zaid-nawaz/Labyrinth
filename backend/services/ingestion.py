@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from langchain_core.documents import Document
 from services.transcript import get_transcript
 from vector_store.vector_storage import vector_store
+import json
 
 
 load_dotenv()
@@ -25,6 +26,8 @@ def ingestion_engine(video_id: str):
     start_offset = None
     end_offset = None
     CHUNK_SIZE=800
+    
+    chunk_segments = []
 
     for segment in data["content"]:
         if start_offset is None:
@@ -33,6 +36,12 @@ def ingestion_engine(video_id: str):
         end_offset = segment["offset"] + segment["duration"]
 
         chunk_text += " " + segment["text"]
+        
+        chunk_segments.append({
+            "text" : segment["text"],
+            "offset" : segment["offset"],
+            "duration" : segment["duration"]
+         })
 
         if len(chunk_text) >= CHUNK_SIZE:
             docs.append(
@@ -43,6 +52,7 @@ def ingestion_engine(video_id: str):
                         "start_offset": start_offset,
                         "end_offset": end_offset,
                         "video_id": video_id,
+                        "segments" : json.dumps(chunk_segments),
                     },
                 )
             )
@@ -50,6 +60,7 @@ def ingestion_engine(video_id: str):
             chunk_text = ""
             start_offset = None
             end_offset = None
+            chunk_segments = []
 
     # remaining text
     if chunk_text:
@@ -61,6 +72,7 @@ def ingestion_engine(video_id: str):
                     "start_offset": start_offset,
                     "end_offset": end_offset,
                     "video_id": video_id,
+                    "segments": json.dumps(chunk_segments),
                 },
             )
         )

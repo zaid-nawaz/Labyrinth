@@ -29,7 +29,7 @@ def rag_chain(video_id: str):
         parallel
         | RunnableLambda(lambda x: {
             "context": format_docs(x["docs"]),
-            "timestamp": format_timestamp(x["docs"]),
+            # "timestamp": format_timestamp(x["docs"]),
             "question": x["question"]
         })
     )
