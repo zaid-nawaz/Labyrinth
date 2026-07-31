@@ -26,7 +26,8 @@ useEffect(() => {
 
   return (
     <div className="flex h-full flex-col">
-<div className="flex flex-1 flex-col justify-end overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex min-h-full flex-col justify-end">
         {messages.length === 0 ? (
           <p className="text-center text-gray-400">
             Ask me anything about the video.
@@ -54,8 +55,15 @@ useEffect(() => {
         )}
       <div ref={bottomRef} />
       </div>
+      </div>
 
-      <ChatInput onSend={onSend} disabled={disabled}/>
+
+      <div className="shrink-0">
+        <ChatInput
+          onSend={onSend}
+          disabled={disabled}
+        />
+      </div>
 
     </div>
   );

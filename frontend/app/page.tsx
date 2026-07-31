@@ -109,7 +109,7 @@ const handleSeek = (milliseconds: number) => {
         ) : (
           <div className="flex h-full items-center justify-center rounded-lg border-2 border-dashed">
             <h2 className="text-2xl font-semibold text-gray-400">
-              Video will appear here
+              Ingest the Youtube Video
             </h2>
           </div>
         )}
@@ -117,7 +117,7 @@ const handleSeek = (milliseconds: number) => {
       </div>
 
         {/* Right Panel */}
-      <div className="w-[400px] rounded-xl border bg-white shadow">
+      <div className="flex h-full w-[400px] flex-col rounded-xl border bg-white shadow">
         <Chat messages={messages} onSend={handleSend} disabled={!videoId} loading={isLoading} onSeek={handleSeek}/>
       </div>
       </div>

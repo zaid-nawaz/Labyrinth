@@ -15,6 +15,9 @@ Rules:
 - The timestamps will be returned separately in the `offset` field.
 - Keep the answer concise unless the user asks for more detail.
 
+ The Most Important rule:
+- DO NOT write timestamps, milliseconds, or timestamp markers such as [185200] in the answer content.
+
 Transcript Context:
 {context}
 
